@@ -1,0 +1,11 @@
+.git
+.secret
+.env
+.env.*
+for_bit_bucket
+for_github
+**/*.key
+**/*.pfx
+stunnel/cert.pem
+stunnel/stunnel.pem
+**/__pycache__
