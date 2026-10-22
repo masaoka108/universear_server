@@ -1,3 +1,17 @@
+#!/bin/sh
+# Development only. Run from the repository root with newly issued local TLS material.
+set -eu
+if [ ! -r .secret/stunnel/cert.pem ]; then
+  echo 'Local TLS credentials are missing; see SECURITY-REVIEW.md' >&2
+  exit 1
+fi
 stunnel4 stunnel/dev_https &
-python manage.py runserver 0.0.0.0:8000&
-HTTPS=1 python manage.py runserver 0.0.0.0:8001
+tls_pid=$!
+http_pid=
+cleanup() {
+  kill "$tls_pid" ${http_pid:+"$http_pid"} 2>/dev/null || true
+}
+trap cleanup EXIT HUP INT TERM
+python manage.py runserver 127.0.0.1:8000 &
+http_pid=$!
+HTTPS=1 python manage.py runserver 127.0.0.1:8001

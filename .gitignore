@@ -110,3 +110,11 @@ universear/dev_settings.py
 universear/local_settings.py
 universear/production_settings.py
 universear/settings.py
+
+# Runtime TLS material and private review evidence
+.secret/
+.env.*
+stunnel/*.key
+stunnel/*.pfx
+stunnel/cert.pem
+stunnel/stunnel.pem
